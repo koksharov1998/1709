@@ -2,12 +2,11 @@
 
 matrix = []
 
-for line in open('in.txt'):
-    matrix.append(line)
-
-N = int(matrix.pop(0))
-D, A = tuple(matrix.pop(0).split())
+N = int(input())
+D, A = tuple(input().split())
 D, A = int(D), int(A)
+for count in range(N):
+    matrix.append(input())
 
 # Заполняем списки смежности - s с помощью matrix
 s = []
