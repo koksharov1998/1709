@@ -6,13 +6,15 @@ for line in open('in.txt'):
     matrix.append(line)
 
 N = int(matrix.pop(0))
-A, D = tuple(matrix.pop(0).split())
+D, A = tuple(matrix.pop(0).split())
 D, A = int(D), int(A)
 
 # Заполняем списки смежности - s с помощью matrix
 s = []
 for i in range(N):
     s.append([])
+
+edges = set()
 
 i = 0
 while i < N - 1:
@@ -22,6 +24,8 @@ while i < N - 1:
         if int(split_line[j]) == 1:
             s[i].append(j)
             s[j].append(i)
+            edges.add((i, j))
+            edges.add((j, i))
         j += 1
     i += 1
 
@@ -37,17 +41,36 @@ while vertices.difference(connected):
         old_vertex = connected.pop()
         connected.add(old_vertex)
         added.add((old_vertex, v))
+        added.add((v, old_vertex))
+        s[v].append(old_vertex)
+        s[old_vertex].append(v)
     visited.add(v)
     connected.add(v)
     connected = connected.union(s[v])
 
-
-
 # Удаление лишних рёбер
-deleted = set()
-visited = set()
+connected = set()
+connected_tuples = set()
 
 for v in range(N):
-    print(v)
+    connected.add(v)
+    for u in s[v]:
+        if u not in connected:
+            connected_tuples.add((u, v))
+            connected_tuples.add((v, u))
+            connected.add(u)
 
-print(deleted)
+deleted = edges.difference(connected_tuples)
+
+print(len(added) // 2 * A + len(deleted) // 2 * D)
+
+for i in range(N):
+    line = ''
+    for j in range(N):
+        if (i, j) in added:
+            line += 'a'
+        elif (i, j) in deleted:
+            line += 'd'
+        else:
+            line += '0'
+    print(line)
