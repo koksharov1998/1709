@@ -25,24 +25,29 @@ while i < N - 1:
         j += 1
     i += 1
 
-# Добавление связующих вершин и удаление лишних
+# Добавление связующих рёбер
 vertices = set(i for i in range(N))
 connected = set()
 visited = set()
 added = set()
-deleted = set()
 
 while vertices.difference(connected):
-    print(vertices.difference(connected))
-    v = vertices.difference(connected).pop()
-    try:
+    v = vertices.difference(visited).pop()
+    if v not in connected and connected:
         old_vertex = connected.pop()
         connected.add(old_vertex)
         added.add((old_vertex, v))
-    except KeyError:
-        pass
-    print(v)
+    visited.add(v)
     connected.add(v)
     connected = connected.union(s[v])
-print(added)
+
+
+
+# Удаление лишних рёбер
+deleted = set()
+visited = set()
+
+for v in range(N):
+    print(v)
+
 print(deleted)
