@@ -2,12 +2,11 @@
 
 matrix = []
 
-for line in open('in.txt'):
-    matrix.append(line)
-
-N = int(matrix.pop(0))
-D, A = tuple(matrix.pop(0).split())
+N = int(input())
+D, A = tuple(input().split())
 D, A = int(D), int(A)
+for count in range(N):
+    matrix.append(input())
 
 # Заполняем списки смежности - s с помощью matrix
 s = []
@@ -69,8 +68,9 @@ for i in range(N):
         if vertices[i] != vertices[j] and (i, j) not in edges:
             edges.add((i, j))
             edges.add((j, i))
+            bad_number = vertices[j]
             for k in range(N):
-                if vertices[k] == vertices[j]:
+                if vertices[k] == bad_number:
                     vertices[k] = vertices[i]
         elif (i, j) not in edges:
             deleted.add((i, j))
