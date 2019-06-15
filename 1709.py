@@ -37,16 +37,26 @@ for i in range(1, len(components)):
     added.add((components[i][0], components[0][0]))
 edges = set()
 colour_of_vertices = [i for i in range(N)]
+colours_vertices = {i: {i} for i in range(N)}
 deleted = set()
+visited = set()
+found = False
 for i in range(N):
     for j in s[i]:
-        if colour_of_vertices[i] != colour_of_vertices[j] and (i, j) not in edges:
+        if not found and colour_of_vertices[i] != colour_of_vertices[j] and (i, j) not in edges:
+            visited.add(i)
+            visited.add(j)
+            if visited == vertices:
+                found = True
             edges.add((i, j))
             edges.add((j, i))
-            bad_number = colour_of_vertices[j]
-            for k in range(N):
-                if colour_of_vertices[k] == bad_number:
-                    colour_of_vertices[k] = colour_of_vertices[i]
+            lesser = colours_vertices[colour_of_vertices[i]] if len(colours_vertices[colour_of_vertices[j]]) >= len(
+                colours_vertices[colour_of_vertices[i]]) else colours_vertices[colour_of_vertices[j]]
+            greater = i if lesser == colours_vertices[colour_of_vertices[j]] else j
+            for vertex in lesser:
+                colour_of_vertices[vertex] = colour_of_vertices[greater]
+                colours_vertices[greater].add(vertex)
+                colours_vertices[vertex] = colours_vertices[greater]
         elif (i, j) not in edges:
             deleted.add((i, j))
             deleted.add((j, i))
