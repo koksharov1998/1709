@@ -39,14 +39,11 @@ edges = set()
 colour_of_vertices = [i for i in range(N)]
 colours_vertices = {i: {i} for i in range(N)}
 deleted = set()
-visited = set()
 found = False
 for i in range(N):
     for j in s[i]:
         if not found and colour_of_vertices[i] != colour_of_vertices[j] and (i, j) not in edges:
-            visited.add(i)
-            visited.add(j)
-            if visited == vertices:
+            if len(edges) / 2 == N - 1:
                 found = True
             edges.add((i, j))
             edges.add((j, i))
