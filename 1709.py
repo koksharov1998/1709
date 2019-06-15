@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 N = int(input())
 (D, A) = tuple(input().split())
 D, A = int(D), int(A)
@@ -39,7 +37,6 @@ for i in range(1, len(components)):
     added.add((components[i][0], components[0][0]))
 edges = set()
 colour_of_vertices = [i for i in range(N)]
-colours_vertices = {i: {i} for i in range(N)}
 deleted = set()
 for i in range(N):
     for j in s[i]:
@@ -47,10 +44,9 @@ for i in range(N):
             edges.add((i, j))
             edges.add((j, i))
             bad_number = colour_of_vertices[j]
-            m = deepcopy(colours_vertices[bad_number])
-            for vertex in m:
-                colour_of_vertices[vertex] = colour_of_vertices[i]
-                colours_vertices[i].add(vertex)
+            for k in range(N):
+                if colour_of_vertices[k] == bad_number:
+                    colour_of_vertices[k] = colour_of_vertices[i]
         elif (i, j) not in edges:
             deleted.add((i, j))
             deleted.add((j, i))
