@@ -1,9 +1,10 @@
+from copy import deepcopy
+
 N = int(input())
 (D, A) = tuple(input().split())
 D, A = int(D), int(A)
 matrix = [input() for _ in range(N)]
 s = [[] for _ in range(N)]
-edges = set()
 i = 0
 while i < N - 1:
     j = i
@@ -12,8 +13,6 @@ while i < N - 1:
         if int(split_line[j]) == 1:
             s[i].append(j)
             s[j].append(i)
-            edges.add((i, j))
-            edges.add((j, i))
         j += 1
     i += 1
 vertices = set(i for i in range(N))
@@ -40,6 +39,7 @@ for i in range(1, len(components)):
     added.add((components[i][0], components[0][0]))
 edges = set()
 colour_of_vertices = [i for i in range(N)]
+colours_vertices = {i: {i} for i in range(N)}
 deleted = set()
 for i in range(N):
     for j in s[i]:
@@ -47,9 +47,10 @@ for i in range(N):
             edges.add((i, j))
             edges.add((j, i))
             bad_number = colour_of_vertices[j]
-            for k in range(N):
-                if colour_of_vertices[k] == bad_number:
-                    colour_of_vertices[k] = colour_of_vertices[i]
+            m = deepcopy(colours_vertices[bad_number])
+            for vertex in m:
+                colour_of_vertices[vertex] = colour_of_vertices[i]
+                colours_vertices[i].add(vertex)
         elif (i, j) not in edges:
             deleted.add((i, j))
             deleted.add((j, i))
