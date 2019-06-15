@@ -39,19 +39,17 @@ for i in range(1, len(components)):
     s[components[i][0]].append(components[0][0])
     added.add((components[i][0], components[0][0]))
 edges = set()
-visited = set()
-components = []
-vertices = [i for i in range(N)]
+colour_of_vertices = [i for i in range(N)]
 deleted = set()
 for i in range(N):
     for j in s[i]:
-        if vertices[i] != vertices[j] and (i, j) not in edges:
+        if colour_of_vertices[i] != colour_of_vertices[j] and (i, j) not in edges:
             edges.add((i, j))
             edges.add((j, i))
-            bad_number = vertices[j]
+            bad_number = colour_of_vertices[j]
             for k in range(N):
-                if vertices[k] == bad_number:
-                    vertices[k] = vertices[i]
+                if colour_of_vertices[k] == bad_number:
+                    colour_of_vertices[k] = colour_of_vertices[i]
         elif (i, j) not in edges:
             deleted.add((i, j))
             deleted.add((j, i))
